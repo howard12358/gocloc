@@ -13,6 +13,7 @@ type ClocOptions struct {
 	ReNotMatchDir  *regexp.Regexp
 	ReMatchDir     *regexp.Regexp
 	Fullpath       bool
+	ExcludeDir     []string
 
 	// OnCode is triggered for each line of code.
 	OnCode func(line string)
@@ -29,5 +30,6 @@ func NewClocOptions() *ClocOptions {
 		SkipDuplicated: false,
 		ExcludeExts:    make(map[string]struct{}),
 		IncludeLangs:   make(map[string]struct{}),
+		ExcludeDir:     make([]string, 0),
 	}
 }

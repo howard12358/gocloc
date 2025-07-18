@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"slices"
 	"strings"
 )
 
@@ -137,6 +138,12 @@ func getAllFiles(paths []string, languages *DefinedLanguages, opts *ClocOptions)
 				fmt.Fprintf(os.Stderr, "%s\n", err)
 				return nil
 			}
+
+			// Skip the entire directory that needs to be excluded
+			if info.IsDir() && slices.Contains(opts.ExcludeDir, info.Name()) {
+				return filepath.SkipDir
+			}
+
 			if ignore := checkDefaultIgnore(path, info, vcsInRoot); ignore {
 				return nil
 			}

@@ -60,6 +60,7 @@ type CmdOptions struct {
 	SkipDuplicated bool   `long:"skip-duplicated" description:"skip duplicated files"`
 	ShowLang       bool   `long:"show-lang" description:"print about all languages and extensions"`
 	ShowVersion    bool   `long:"version" description:"print version info"`
+	ExcludeDir     string `long:"exclude-dir" description:"exclude dir name (separated commas, it will cover not-match-d)"`
 }
 
 type outputBuilder struct {
@@ -333,6 +334,9 @@ func main() {
 	}
 	if opts.NotMatchDir != "" {
 		clocOpts.ReNotMatchDir = regexp.MustCompile(opts.NotMatchDir)
+	}
+	for _, dir := range strings.Split(opts.ExcludeDir, ",") {
+		clocOpts.ExcludeDir = append(clocOpts.ExcludeDir, dir)
 	}
 
 	// setup option for include languages
